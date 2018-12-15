@@ -1,0 +1,11 @@
+C:\Users\Marco Hermel\source\repos\PraticalTest\PraticalTest\bin\Debug\netcoreapp2.0\PraticalTest.deps.json
+C:\Users\Marco Hermel\source\repos\PraticalTest\PraticalTest\bin\Debug\netcoreapp2.0\PraticalTest.runtimeconfig.json
+C:\Users\Marco Hermel\source\repos\PraticalTest\PraticalTest\bin\Debug\netcoreapp2.0\PraticalTest.runtimeconfig.dev.json
+C:\Users\Marco Hermel\source\repos\PraticalTest\PraticalTest\bin\Debug\netcoreapp2.0\PraticalTest.dll
+C:\Users\Marco Hermel\source\repos\PraticalTest\PraticalTest\bin\Debug\netcoreapp2.0\PraticalTest.pdb
+C:\Users\Marco Hermel\source\repos\PraticalTest\PraticalTest\obj\Debug\netcoreapp2.0\PraticalTest.csprojAssemblyReference.cache
+C:\Users\Marco Hermel\source\repos\PraticalTest\PraticalTest\obj\Debug\netcoreapp2.0\PraticalTest.csproj.CoreCompileInputs.cache
+C:\Users\Marco Hermel\source\repos\PraticalTest\PraticalTest\obj\Debug\netcoreapp2.0\PraticalTest.AssemblyInfoInputs.cache
+C:\Users\Marco Hermel\source\repos\PraticalTest\PraticalTest\obj\Debug\netcoreapp2.0\PraticalTest.AssemblyInfo.cs
+C:\Users\Marco Hermel\source\repos\PraticalTest\PraticalTest\obj\Debug\netcoreapp2.0\PraticalTest.dll
+C:\Users\Marco Hermel\source\repos\PraticalTest\PraticalTest\obj\Debug\netcoreapp2.0\PraticalTest.pdb

@@ -24,6 +24,11 @@ namespace SalesMVC.Controllers
             ViewBag.Regions = _context.Region;
             ViewBag.Classifications = _context.Classification;
             ViewBag.UsersSys = _context.UserSys;
+
+            if (User.IsInRole(""))
+            {
+
+            }
             
         }
         // GET: Customers

@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using SalesMVC.Models;
 using System;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -40,6 +41,9 @@ namespace SalesMVC.Controllers
                 {
                     if (!string.IsNullOrEmpty(model.ReturnUrl) && Url.IsLocalUrl(model.ReturnUrl))
                     {
+
+                        User.Identity. 
+
                         return Redirect(model.ReturnUrl);
                     }
                     else
@@ -47,7 +51,7 @@ namespace SalesMVC.Controllers
                         return RedirectToAction("Index", "Customers");
                     }
                 }
-               
+
             }
             ModelState.AddModelError("", "Invalid login attempt");
             model.CheckEmailAndPassword = false;

@@ -42,8 +42,6 @@ namespace SalesMVC.Controllers
                     if (!string.IsNullOrEmpty(model.ReturnUrl) && Url.IsLocalUrl(model.ReturnUrl))
                     {
 
-                        User.Identity. 
-
                         return Redirect(model.ReturnUrl);
                     }
                     else
@@ -57,48 +55,6 @@ namespace SalesMVC.Controllers
             model.CheckEmailAndPassword = false;
             return View(model);
         }
-
-        //public string Encrypt(string plainText)
-        //{
-        //    if (plainText == null) throw new ArgumentNullException("plainText");
-
-        //    //encrypt data
-        //    var data = Encoding.Unicode.GetBytes(plainText);
-        //    byte[] encrypted = ProtectedData.Protect(data, null, Scope);
-
-        //    //return as base64 string
-        //    return Convert.ToBase64String(encrypted);
-        //}
-        //[HttpPost]
-        //public async Task<IActionResult> Logout()
-        //{
-        //    await SignInManager.SignOutAsync();
-        //    return RedirectToAction("Index", "Home");
-        //}
-        //[HttpPost]
-        //public async Task<IActionResult> Login(LoginViewModel model)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        var result = await SignInManager.PasswordSignInAsync(model.Username,
-        //           model.Password, model.RememberMe, false);
-
-        //        if (result.Succeeded)
-        //        {
-        //            if (!string.IsNullOrEmpty(model.ReturnUrl) && Url.IsLocalUrl(model.ReturnUrl))
-        //            {
-        //                return Redirect(model.ReturnUrl);
-        //            }
-        //            else
-        //            {
-        //                return RedirectToAction("Index", "Home");
-        //            }
-        //        }
-        //    }
-        //    ModelState.AddModelError("", "Invalid login attempt");
-        //    return View(model);
-        //}
-
 
     }
 }

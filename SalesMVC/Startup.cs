@@ -7,9 +7,10 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-
+using SalesMVC.Models;
 namespace SalesMVC
 {
     public class Startup
@@ -17,6 +18,11 @@ namespace SalesMVC
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+            using (var db = new SalesMVCContext())
+            {
+                //db.Database.EnsureDeleted();
+                db.Database.EnsureCreated();
+            }
         }
 
         public IConfiguration Configuration { get; }
@@ -31,7 +37,8 @@ namespace SalesMVC
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-
+            var connection = @"Server=(localdb)\mssqllocaldb;Database=SalesMVC;Trusted_Connection=True;";
+            services.AddDbContext<SalesMVCContext>(options => options.UseSqlServer(connection));
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
@@ -56,7 +63,7 @@ namespace SalesMVC
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    template: "{controller=Account}/{action=Login}/{id?}");
             });
         }
     }

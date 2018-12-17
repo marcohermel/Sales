@@ -35,7 +35,7 @@ namespace SalesMVC.Controllers
         {
             if (ModelState.IsValid)
             {
-                var result = await _context.UserSys.Where(u => u.Login == model.Email && u.Password == model.Password).ToListAsync();
+                var result = await _context.UserSys.Where(u => u.Email == model.Email && u.Password == model.Password).ToListAsync();
 
                 if (result.Count > 0)
                 {

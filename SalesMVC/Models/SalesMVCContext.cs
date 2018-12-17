@@ -1,10 +1,9 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace SalesMVC.Models
 {
-    public partial class SalesMVCContext : DbContext
+    public partial class SalesMVCContext : IdentityDbContext<UserSys>
     {
         public virtual DbSet<City> City { get; set; }
         public virtual DbSet<Classification> Classification { get; set; }
@@ -24,12 +23,13 @@ namespace SalesMVC.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
-             optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=SalesMVC;Trusted_Connection=True;");
+                optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=SalesMVC;Trusted_Connection=True;");
             }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<City>(entity =>
             {
                 entity.Property(e => e.Name)
@@ -92,6 +92,7 @@ namespace SalesMVC.Models
 
             modelBuilder.Entity<UserSys>(entity =>
             {
+
                 entity.Property(e => e.Email)
                     .IsRequired()
                     .HasMaxLength(50)

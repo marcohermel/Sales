@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -21,7 +18,7 @@ namespace SalesMVC
             using (var db = new SalesMVCContext())
             {
                 //db.Database.EnsureDeleted();
-                db.Database.EnsureCreated();
+               db.Database.EnsureCreated();
             }
         }
 
@@ -40,12 +37,13 @@ namespace SalesMVC
             var connection = @"Server=(localdb)\mssqllocaldb;Database=SalesMVC;Trusted_Connection=True;";
             services.AddDbContext<SalesMVCContext>(options => options.UseSqlServer(connection));
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddIdentity<UserSys, UserRole>().AddEntityFrameworkStores<SalesMVCContext>().AddDefaultTokenProviders();
+      
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -55,10 +53,11 @@ namespace SalesMVC
                 app.UseExceptionHandler("/Home/Error");
                 app.UseHsts();
             }
-
+            
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
+            app.UseAuthentication();
 
             app.UseMvc(routes =>
             {

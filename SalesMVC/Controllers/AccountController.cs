@@ -13,11 +13,15 @@ namespace SalesMVC.Controllers
     public class AccountController : Controller
     {
         private readonly SalesMVCContext _context;
-
-        public AccountController(SalesMVCContext context)
+        private  UserManager<UserSys> _userManager;
+        private  SignInManager<UserSys> _signInManager;
+        public AccountController(UserManager<UserSys> userManager, SignInManager<UserSys> signInManager, SalesMVCContext context)
         {
+            _userManager = userManager;
+            _signInManager = signInManager;
             _context = context;
         }
+
         public IActionResult Index()
         {
             return View();
@@ -31,30 +35,29 @@ namespace SalesMVC.Controllers
             return View(model);
         }
 
+        [HttpPost]
         public async Task<IActionResult> Login(LoginViewModel model)
         {
             if (ModelState.IsValid)
             {
-                var result = await _context.UserSys.Where(u => u.Login == model.Email && u.Password == model.Password).ToListAsync();
+                //model.Email = "admin@sellseverything.com";
+               // model.Password = "admin123";
+                UserSys usersys = new UserSys { Login = "Administrator", Email = model.Email, Password = model.Password };
+              
+                //var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password,false, lockoutOnFailure: false);
+                var result = await _signInManager.PasswordSignInAsync(usersys, model.Password, false, false);
 
-                if (result.Count > 0)
+                if (result.Succeeded)
                 {
                     if (!string.IsNullOrEmpty(model.ReturnUrl) && Url.IsLocalUrl(model.ReturnUrl))
                     {
-
                         return Redirect(model.ReturnUrl);
                     }
-                    else
-                    {
-                        return RedirectToAction("Index", "Customers");
-                    }
+                   
                 }
-
             }
             ModelState.AddModelError("", "Invalid login attempt");
-            model.CheckEmailAndPassword = false;
             return View(model);
         }
-
     }
 }

@@ -6,11 +6,11 @@ namespace SalesMVC.Models
     public partial class vwCustomer
     {
         public int Id { get; set; }
-        public int GenderId { get; set; }
-        public int CityId { get; set; }
-        public int RegionId { get; set; }
-        public int ClassificationId { get; set; }
-        public int UserId { get; set; }
+        public int? GenderId { get; set; }
+        public int? CityId { get; set; }
+        public int? RegionId { get; set; }
+        public int? ClassificationId { get; set; }
+        public int? UserId { get; set; }
         public string Name { get; set; }
         public string Phone { get; set; }
         public string Gender { get; set; }
@@ -23,6 +23,6 @@ namespace SalesMVC.Models
         public string Email { get; set; }
         public string Password { get; set; }
         public string UserRole { get; set; }
-        public bool isAdmin { get; set; }
+        public bool IsAdmin { get; set; }
     }
 }

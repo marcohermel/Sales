@@ -1,4 +1,4 @@
-﻿CREATE VIEW vwCustomer AS 
+﻿drop  VIEW vwCustomer AS 
 	SELECT 
 	c.Id,
 	c.GenderId,

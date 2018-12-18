@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
@@ -30,6 +31,8 @@ namespace SalesMVC.Controllers
             ViewBag.UsersSys = _context.UserSys;
 
         }
+
+
         // GET: Customers
         public async Task<IActionResult> Index()
         {
@@ -59,16 +62,43 @@ namespace SalesMVC.Controllers
 
         public async Task<IEnumerable<vwCustomer>> Filter(CustomerViewModel ViewModel)
         {
-            return await _context.VwCustomer
-                .Where(c => c.UserId == ViewModel.UserSysId || User.IsInRole("Administrator"))
-                .Where(c => c.Name.Contains(ViewModel.Name) || String.IsNullOrEmpty(ViewModel.Name))
-                .Where(c => c.GenderId == ViewModel.GenderId || ViewModel.GenderId == null)
-                .Where(c => c.CityId == ViewModel.CityId || ViewModel.CityId == null)
-                .Where(c => c.RegionId == ViewModel.RegionId || ViewModel.RegionId == null)
-                .Where(c => c.ClassificationId == ViewModel.ClassificationId || ViewModel.ClassificationId == null)
-                .Where(c => c.LastPurchase >= ViewModel.DateStart || ViewModel.DateStart == null)
-                .Where(c => c.LastPurchase <= ViewModel.DateFinish || ViewModel.DateFinish == null)
-                .ToListAsync();
+            return await (from customer in _context.Customer
+                          join city in _context.City on customer.CityId equals city.Id
+                          join region in _context.Region on customer.RegionId equals region.Id
+                          join classification in _context.Classification on customer.ClassificationId equals classification.Id
+                          join gender in _context.Gender on customer.GenderId equals gender.Id
+                          join user in _context.UserSys on customer.UserId equals user.Id
+                          join role in _context.UserRole on user.UserRoleId equals role.Id
+                          select new vwCustomer
+                          {
+                              Id = customer.Id,
+                              GenderId = customer.GenderId,
+                              CityId = customer.CityId,
+                              RegionId = customer.RegionId,
+                              ClassificationId = customer.ClassificationId,
+                              UserId = customer.UserId,
+                              Name = customer.Name,
+                              Phone = customer.Phone,
+                              Gender = gender.Name,
+                              City = city.Name,
+                              Region = region.Name,
+                              LastPurchase = customer.LastPurchase,
+                              Classification = customer.Name,
+                              Login = user.Login,
+                              Email = user.Email,
+                              Password = user.Password,
+                              UserRole = role.Name,
+                              IsAdmin = role.IsAdmin
+                          })
+               .Where(c => c.UserId == ViewModel.UserSysId || User.IsInRole("Administrator"))
+               .Where(c => c.Name.Contains(ViewModel.Name) || String.IsNullOrEmpty(ViewModel.Name))
+               .Where(c => c.GenderId == ViewModel.GenderId || ViewModel.GenderId == null)
+               .Where(c => c.CityId == ViewModel.CityId || ViewModel.CityId == null)
+               .Where(c => c.RegionId == ViewModel.RegionId || ViewModel.RegionId == null)
+               .Where(c => c.ClassificationId == ViewModel.ClassificationId || ViewModel.ClassificationId == null)
+               .Where(c => c.LastPurchase >= ViewModel.DateStart || ViewModel.DateStart == null)
+               .Where(c => c.LastPurchase <= ViewModel.DateFinish || ViewModel.DateFinish == null)
+               .ToListAsync();
         }
 
         // GET: Customers/Details/5

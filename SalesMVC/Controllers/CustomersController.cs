@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
+using System.Security.Principal;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SalesMVC.Models;
@@ -15,7 +17,6 @@ namespace SalesMVC.Controllers
     public class CustomersController : Controller
     {
         private readonly SalesMVCContext _context;
-
         public CustomersController(SalesMVCContext context)
         {
             _context = context;
@@ -28,15 +29,12 @@ namespace SalesMVC.Controllers
             ViewBag.Classifications = _context.Classification;
             ViewBag.UsersSys = _context.UserSys;
 
-          
-            
         }
         // GET: Customers
         public async Task<IActionResult> Index()
         {
-
             CustomerViewModel ViewModel = new CustomerViewModel();
-
+            ViewModel.UserSysId = getUserId();
             ViewModel.Customers = await Filter(ViewModel);
             LoadViewBags();
             return View(ViewModel);
@@ -44,23 +42,25 @@ namespace SalesMVC.Controllers
         [HttpPost]
         public async Task<IActionResult> Index(CustomerViewModel ViewModel)
         {
+            ViewModel.UserSysId = getUserId();
             ViewModel.Customers = await Filter(ViewModel);
             LoadViewBags();
             return View(ViewModel);
         }
 
+        public int getUserId()
+        {
+            var identity = (ClaimsIdentity)User.Identity;
+            IEnumerable<Claim> claims = identity.Claims;
+            Claim claim = claims.FirstOrDefault(cl => cl.Type == "UserId");
+            string id = claim.Value;
+            return Convert.ToInt32(id);
+        }
+
         public async Task<IEnumerable<vwCustomer>> Filter(CustomerViewModel ViewModel)
         {
-            var identity = (ClaimsPrincipal)Thread.CurrentPrincipal;
-
-            // Get the claims values
-            var sid = identity.Claims.Where(c => c.Type == "UserId")
-                               .Select(c => c.Value).SingleOrDefault();
-
-            int userid = Convert.ToInt32(sid);
-
             return await _context.VwCustomer
-                .Where(c => c.UserId == userid || User.IsInRole("Administrator"))
+                .Where(c => c.UserId == ViewModel.UserSysId || User.IsInRole("Administrator"))
                 .Where(c => c.Name.Contains(ViewModel.Name) || String.IsNullOrEmpty(ViewModel.Name))
                 .Where(c => c.GenderId == ViewModel.GenderId || ViewModel.GenderId == null)
                 .Where(c => c.CityId == ViewModel.CityId || ViewModel.CityId == null)

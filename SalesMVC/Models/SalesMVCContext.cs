@@ -24,7 +24,7 @@ namespace SalesMVC.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
-             optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=SalesMVC;Trusted_Connection=True;");
+             optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=SalesMaster;Trusted_Connection=True;");
             }
         }
 
@@ -92,6 +92,7 @@ namespace SalesMVC.Models
 
             modelBuilder.Entity<UserSys>(entity =>
             {
+
                 entity.Property(e => e.Email)
                     .IsRequired()
                     .HasMaxLength(50)
@@ -107,6 +108,10 @@ namespace SalesMVC.Models
                     .HasMaxLength(40)
                     .IsUnicode(false);
             });
+
+            modelBuilder.Entity<UserSys>()
+            .HasOne(u => u.Role)
+            .WithMany(r => r.Users);
 
             modelBuilder.Query<vwCustomer>().ToView("vwCustomer");
         }

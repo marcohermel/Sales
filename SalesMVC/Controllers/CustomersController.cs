@@ -1,14 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
+using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using SalesMVC.Models;
 
 namespace SalesMVC.Controllers
 {
+    [Authorize]
     public class CustomersController : Controller
     {
         private readonly SalesMVCContext _context;
@@ -25,10 +28,7 @@ namespace SalesMVC.Controllers
             ViewBag.Classifications = _context.Classification;
             ViewBag.UsersSys = _context.UserSys;
 
-            if (User.IsInRole(""))
-            {
-
-            }
+          
             
         }
         // GET: Customers
@@ -36,8 +36,8 @@ namespace SalesMVC.Controllers
         {
 
             CustomerViewModel ViewModel = new CustomerViewModel();
-            ViewModel.Customers = await _context.VwCustomer.ToListAsync();
 
+            ViewModel.Customers = await Filter(ViewModel);
             LoadViewBags();
             return View(ViewModel);
         }
@@ -51,7 +51,16 @@ namespace SalesMVC.Controllers
 
         public async Task<IEnumerable<vwCustomer>> Filter(CustomerViewModel ViewModel)
         {
+            var identity = (ClaimsPrincipal)Thread.CurrentPrincipal;
+
+            // Get the claims values
+            var sid = identity.Claims.Where(c => c.Type == "UserId")
+                               .Select(c => c.Value).SingleOrDefault();
+
+            int userid = Convert.ToInt32(sid);
+
             return await _context.VwCustomer
+                .Where(c => c.UserId == userid || User.IsInRole("Administrator"))
                 .Where(c => c.Name.Contains(ViewModel.Name) || String.IsNullOrEmpty(ViewModel.Name))
                 .Where(c => c.GenderId == ViewModel.GenderId || ViewModel.GenderId == null)
                 .Where(c => c.CityId == ViewModel.CityId || ViewModel.CityId == null)

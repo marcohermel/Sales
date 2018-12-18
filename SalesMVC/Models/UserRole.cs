@@ -8,5 +8,6 @@ namespace SalesMVC.Models
         public int Id { get; set; }
         public string Name { get; set; }
         public bool IsAdmin { get; set; }
+        public IEnumerable<UserSys> Users { get; set; }
     }
 }

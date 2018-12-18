@@ -1,11 +1,15 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SalesMVC.Models;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace SalesMVC.Controllers
@@ -18,6 +22,9 @@ namespace SalesMVC.Controllers
         {
             _context = context;
         }
+
+        public ClaimsIdentity UserIdentity { get; private set; }
+
         public IActionResult Index()
         {
             return View();
@@ -35,19 +42,35 @@ namespace SalesMVC.Controllers
         {
             if (ModelState.IsValid)
             {
-                var result = await _context.UserSys.Where(u => u.Email == model.Email && u.Password == model.Password).ToListAsync();
+                var result = _context.UserSys.Include(u => u.Role).FirstOrDefault(u => u.Email == model.Email && u.Password == model.Password);
 
-                if (result.Count > 0)
+                if (result != null)
                 {
-                    if (!string.IsNullOrEmpty(model.ReturnUrl) && Url.IsLocalUrl(model.ReturnUrl))
-                    {
 
-                        return Redirect(model.ReturnUrl);
-                    }
-                    else
-                    {
-                        return RedirectToAction("Index", "Customers");
-                    }
+                    var claims = new List<Claim>
+                {
+                    new Claim(ClaimTypes.Email, model.Email),
+                    new Claim(ClaimTypes.Role, result.Role.Name),
+                    new Claim("UserId", result.Id.ToString())
+                };
+
+                    var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                    ClaimsPrincipal claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
+
+                    Thread.CurrentPrincipal = claimsPrincipal;
+
+                    await HttpContext.SignInAsync(
+                        CookieAuthenticationDefaults.AuthenticationScheme,
+                        claimsPrincipal,
+                        new AuthenticationProperties
+                        {
+                            IsPersistent = true,
+                            ExpiresUtc = DateTime.UtcNow.AddMinutes(20)
+                        });
+
+
+                    return RedirectToAction("Index", "Customers");
+
                 }
 
             }
@@ -55,6 +78,7 @@ namespace SalesMVC.Controllers
             model.CheckEmailAndPassword = false;
             return View(model);
         }
+
 
     }
 }

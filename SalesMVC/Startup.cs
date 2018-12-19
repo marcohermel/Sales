@@ -34,8 +34,7 @@ namespace SalesMVC
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-            var connection = @"Server=(localdb)\mssqllocaldb;Database=SalesMVC;Trusted_Connection=True;";
-            services.AddDbContext<SalesMVCContext>(options => options.UseSqlServer(connection));
+            services.AddDbContext<SalesMVCContext>(options => options.UseSqlServer(Configuration["ConnectionStrings:DefaultConnection"]));
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddIdentity<UserSys, UserRole>().AddEntityFrameworkStores<SalesMVCContext>().AddDefaultTokenProviders();
       

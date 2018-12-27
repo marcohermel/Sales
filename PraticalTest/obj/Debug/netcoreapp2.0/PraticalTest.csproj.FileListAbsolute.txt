@@ -9,3 +9,14 @@ C:\Users\Marco Hermel\source\repos\PraticalTest\PraticalTest\obj\Debug\netcoreap
 C:\Users\Marco Hermel\source\repos\PraticalTest\PraticalTest\obj\Debug\netcoreapp2.0\PraticalTest.AssemblyInfo.cs
 C:\Users\Marco Hermel\source\repos\PraticalTest\PraticalTest\obj\Debug\netcoreapp2.0\PraticalTest.dll
 C:\Users\Marco Hermel\source\repos\PraticalTest\PraticalTest\obj\Debug\netcoreapp2.0\PraticalTest.pdb
+C:\PraticalTest\PraticalTest\bin\Debug\netcoreapp2.0\PraticalTest.deps.json
+C:\PraticalTest\PraticalTest\bin\Debug\netcoreapp2.0\PraticalTest.runtimeconfig.json
+C:\PraticalTest\PraticalTest\bin\Debug\netcoreapp2.0\PraticalTest.runtimeconfig.dev.json
+C:\PraticalTest\PraticalTest\bin\Debug\netcoreapp2.0\PraticalTest.dll
+C:\PraticalTest\PraticalTest\bin\Debug\netcoreapp2.0\PraticalTest.pdb
+C:\PraticalTest\PraticalTest\obj\Debug\netcoreapp2.0\PraticalTest.csproj.CoreCompileInputs.cache
+C:\PraticalTest\PraticalTest\obj\Debug\netcoreapp2.0\PraticalTest.AssemblyInfoInputs.cache
+C:\PraticalTest\PraticalTest\obj\Debug\netcoreapp2.0\PraticalTest.AssemblyInfo.cs
+C:\PraticalTest\PraticalTest\obj\Debug\netcoreapp2.0\PraticalTest.dll
+C:\PraticalTest\PraticalTest\obj\Debug\netcoreapp2.0\PraticalTest.pdb
+C:\PraticalTest\PraticalTest\obj\Debug\netcoreapp2.0\PraticalTest.csprojAssemblyReference.cache

@@ -259,3 +259,5 @@ paket-files/
 # Python Tools for Visual Studio (PTVS)
 __pycache__/
 *.pyc
+PraticalTest/obj/Debug/netcoreapp2.0/PraticalTest.csproj.CoreCompileInputs.cache
+

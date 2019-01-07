@@ -261,3 +261,4 @@ __pycache__/
 *.pyc
 PraticalTest/obj/Debug/netcoreapp2.0/PraticalTest.csproj.CoreCompileInputs.cache
 
+PraticalTest/obj/PraticalTest.csproj.nuget.cache

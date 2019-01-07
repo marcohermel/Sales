@@ -37,4 +37,4 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
-PraticalTest/obj/Debug/netcoreapp2.0/PraticalTest.csproj.CoreCompileInputs.cache
+obj/Debug/CoreCompileInputs.cache
